@@ -99,8 +99,8 @@
 1. 导购上传单品图 / 款号 / 顾客描述
 2. `skill-styling-item-match` 识别单品并匹配商品候选
 3. `skill-styling-customer-profile-parse` 提取顾客画像、身形与约束
-4. `skill-styling-outfit-recommend` 读取飞书表中的商品知识库、搭配知识库、门店模拟库存库，输出 3-5 套候选
-5. `skill-styling-sales-script-generate` 生成导购可直接使用的话术
+4. `skill-styling-outfit-recommend` **必须**读取飞书表中的 `商品知识库`、`搭配知识库`、`门店模拟库存库`，并仅允许输出“知识库命中 + 库存命中”的商品
+5. `skill-styling-sales-script-generate` 生成导购可直接使用的**手机端短话术**
 6. 推荐结果写入 `搭配候选记录`
 
 ## 当前建议新增的飞书表

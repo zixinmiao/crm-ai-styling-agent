@@ -1,0 +1,16 @@
+{
+  "id": "capability.scene.styling.recommendation",
+  "name": "商品搭配与试衣候选 Agent 能力包",
+  "version": "0.1.0",
+  "description": "基于品牌商品资料、门店库存、穿搭图片和单品图，为导购生成店内可执行的搭配候选。",
+  "skills": ["./skills"],
+  "workflow": "./workflow.json",
+  "configSchema": {
+    "type": "object",
+    "title": "Styling Agent Config",
+    "properties": {
+      "defaultSceneId": { "type": "string", "default": "scene-styling-recommendation" },
+      "defaultAgentId": { "type": "string", "default": "agent-lobster-styling" }
+    }
+  }
+}

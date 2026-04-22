@@ -1,0 +1,97 @@
+{
+  "schema_version": "1.0.0",
+  "scene": {
+    "id": "scene-styling-recommendation",
+    "name": "商品搭配与试衣候选场景",
+    "description": "基于品牌商品资料、门店库存、穿搭图片和单品图，为导购生成店内可执行的搭配候选。",
+    "trigger": "事件监听",
+    "collaboration_mode": "supervisor",
+    "chain_mode": "sequence"
+  },
+  "orchestration": {
+    "id": "orch-agent-lobster-styling",
+    "name": "导购穿搭 Agent 内部编排",
+    "type": "agent_internal",
+    "version": "v0.1",
+    "status": "draft"
+  },
+  "nodes": [
+    {
+      "id": "intake",
+      "name": "接收输入",
+      "type": "trigger",
+      "skill": "skill-styling-intake-router",
+      "description": "识别当前输入是商品资料、库存数据、穿搭图片还是试衣候选请求。"
+    },
+    {
+      "id": "product_ingest",
+      "name": "品牌商品资料解析",
+      "type": "skill",
+      "skill": "skill-styling-product-knowledge-ingest",
+      "description": "解析品牌 PDF / 商品资料，抽取商品结构化字段和风格标签。"
+    },
+    {
+      "id": "inventory_normalize",
+      "name": "库存商品标准化",
+      "type": "skill",
+      "skill": "skill-styling-inventory-normalize",
+      "description": "把门店库存映射为可检索的商品知识结构。"
+    },
+    {
+      "id": "look_parse",
+      "name": "穿搭图片拆解",
+      "type": "skill",
+      "skill": "skill-styling-look-parse",
+      "description": "拆解穿搭图片中的商品组成、风格、色彩和身形适配。"
+    },
+    {
+      "id": "item_match",
+      "name": "单品识别与商品匹配",
+      "type": "skill",
+      "skill": "skill-styling-item-match",
+      "description": "把导购拍摄的单品图映射成商品知识库中的候选商品，并补齐品类/颜色/版型/风格标签。"
+    },
+    {
+      "id": "customer_profile",
+      "name": "顾客画像与身形解析",
+      "type": "skill",
+      "skill": "skill-styling-customer-profile-parse",
+      "description": "从导购文字、顾客偏好和试衣场景中提取身形、风格偏好、场景偏好和推荐约束。"
+    },
+    {
+      "id": "knowledge_sync",
+      "name": "知识库沉淀",
+      "type": "data",
+      "skill": "skill-styling-knowledge-sync",
+      "description": "把商品知识卡与搭配知识卡写入知识库载体。"
+    },
+    {
+      "id": "outfit_recommend",
+      "name": "试衣候选推荐",
+      "type": "skill",
+      "skill": "skill-styling-outfit-recommend",
+      "description": "基于单品、库存、风格和身形生成 3-5 套可执行搭配。"
+    },
+    {
+      "id": "sales_script",
+      "name": "导购推荐话术",
+      "type": "skill",
+      "skill": "skill-styling-sales-script-generate",
+      "description": "把搭配候选转成导购可直接说的话术。"
+    }
+  ],
+  "edges": [
+    {"source": "intake", "target": "product_ingest", "relation": "conditional"},
+    {"source": "intake", "target": "inventory_normalize", "relation": "conditional"},
+    {"source": "intake", "target": "look_parse", "relation": "conditional"},
+    {"source": "intake", "target": "item_match", "relation": "conditional"},
+    {"source": "intake", "target": "customer_profile", "relation": "conditional"},
+    {"source": "product_ingest", "target": "knowledge_sync", "relation": "next"},
+    {"source": "inventory_normalize", "target": "knowledge_sync", "relation": "next"},
+    {"source": "look_parse", "target": "knowledge_sync", "relation": "next"},
+    {"source": "item_match", "target": "outfit_recommend", "relation": "next"},
+    {"source": "customer_profile", "target": "outfit_recommend", "relation": "next"},
+    {"source": "knowledge_sync", "target": "outfit_recommend", "relation": "next"},
+    {"source": "outfit_recommend", "target": "sales_script", "relation": "next"}
+  ]
+}

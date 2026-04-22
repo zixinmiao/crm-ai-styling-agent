@@ -1,0 +1,39 @@
+{
+  "package": {
+    "id": "pkg-lobster-styling-agent",
+    "name": "商品搭配与试衣候选 Agent 能力包",
+    "version": "0.1.0"
+  },
+  "agent": {
+    "id": "agent-lobster-styling",
+    "name": "穿搭龙虾",
+    "role": "门店穿搭搭配助理",
+    "model": "gpt-4o-mini",
+    "temperature": 0.35,
+    "max_tokens": 4096,
+    "default_orchestration_id": "orch-agent-lobster-styling"
+  },
+  "runtime": {
+    "timeout_seconds": 90,
+    "retry_count": 2,
+    "failure_policies": ["terminate"],
+    "input_channels": [
+      "品牌 PDF 商品资料",
+      "门店库存表",
+      "导购上传的穿搭图片",
+      "导购拍摄的单品图",
+      "导购文字描述的顾客需求/身形信息"
+    ],
+    "output_artifacts": [
+      "商品知识卡",
+      "搭配知识卡",
+      "试衣候选清单",
+      "导购推荐话术"
+    ],
+    "knowledge_targets": [
+      "飞书多维表格",
+      "飞书文档",
+      "本地 JSON/CSV"
+    ]
+  }
+}

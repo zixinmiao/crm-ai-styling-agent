@@ -1,0 +1,11 @@
+{
+  "id": "agent-lobster-styling",
+  "name": "穿搭龙虾",
+  "role": "门店穿搭搭配助理",
+  "description": "基于门店库存、品牌资料和穿搭知识，为导购输出试衣候选搭配。",
+  "mission": "让导购在试衣关键节点，快速拿到店内可执行的搭配方案。",
+  "model": "gpt-4o-mini",
+  "temperature": 0.35,
+  "max_tokens": 4096,
+  "default_scene_id": "scene-styling-recommendation"
+}

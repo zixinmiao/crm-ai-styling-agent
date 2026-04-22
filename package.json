@@ -1,0 +1,12 @@
+{
+  "name": "openclaw-capability-scene-styling-recommendation",
+  "version": "0.1.0",
+  "description": "商品搭配与试衣候选 Agent 能力包",
+  "private": true,
+  "type": "commonjs",
+  "main": "index.js",
+  "license": "UNLICENSED",
+  "openclaw": {
+    "extensions": ["./index.js"]
+  }
+}

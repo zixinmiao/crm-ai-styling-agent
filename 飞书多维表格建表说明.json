@@ -1,0 +1,92 @@
+{
+  "base_name": "商品搭配知识库",
+  "tables": [
+    {
+      "name": "商品知识库",
+      "desc": "承接品牌 PDF 商品资料解析结果",
+      "fields": [
+        {"name": "商品ID", "type": "text"},
+        {"name": "品牌", "type": "text"},
+        {"name": "季节", "type": "single_select"},
+        {"name": "系列", "type": "text"},
+        {"name": "款号", "type": "text"},
+        {"name": "商品名", "type": "text"},
+        {"name": "品类", "type": "single_select"},
+        {"name": "性别线", "type": "single_select"},
+        {"name": "颜色", "type": "multi_select"},
+        {"name": "材质", "type": "multi_select"},
+        {"name": "版型", "type": "single_select"},
+        {"name": "长度标签", "type": "single_select"},
+        {"name": "风格标签", "type": "multi_select"},
+        {"name": "场景标签", "type": "multi_select"},
+        {"name": "适合身形标签", "type": "multi_select"},
+        {"name": "核心卖点", "type": "text"},
+        {"name": "价格带", "type": "text"},
+        {"name": "图片来源", "type": "url"},
+        {"name": "原始页码", "type": "number"},
+        {"name": "来源文件", "type": "text"},
+        {"name": "来源摘要", "type": "text"},
+        {"name": "是否可上架推荐", "type": "checkbox"}
+      ]
+    },
+    {
+      "name": "搭配知识库",
+      "desc": "承接 PDF look 页和导购上传穿搭图的结构化搭配知识",
+      "fields": [
+        {"name": "搭配ID", "type": "text"},
+        {"name": "主题/系列", "type": "text"},
+        {"name": "look名称", "type": "text"},
+        {"name": "主单品款号", "type": "text"},
+        {"name": "搭配单品款号列表", "type": "text"},
+        {"name": "风格标签", "type": "multi_select"},
+        {"name": "场景标签", "type": "multi_select"},
+        {"name": "适合身形标签", "type": "multi_select"},
+        {"name": "色彩关系", "type": "text"},
+        {"name": "层次结构", "type": "text"},
+        {"name": "搭配逻辑", "type": "text"},
+        {"name": "推荐理由", "type": "text"},
+        {"name": "来源类型", "type": "single_select"},
+        {"name": "来源文件", "type": "text"},
+        {"name": "原始页码", "type": "number"},
+        {"name": "来源图片", "type": "url"},
+        {"name": "是否可推荐", "type": "checkbox"}
+      ]
+    },
+    {
+      "name": "门店模拟库存库",
+      "desc": "第一版模拟库存，支撑试衣候选推荐",
+      "fields": [
+        {"name": "库存ID", "type": "text"},
+        {"name": "门店", "type": "single_select"},
+        {"name": "商品ID", "type": "text"},
+        {"name": "款号", "type": "text"},
+        {"name": "商品名", "type": "text"},
+        {"name": "品类", "type": "single_select"},
+        {"name": "颜色", "type": "single_select"},
+        {"name": "尺码", "type": "single_select"},
+        {"name": "库存数量", "type": "number"},
+        {"name": "在库状态", "type": "single_select"},
+        {"name": "陈列优先级", "type": "single_select"},
+        {"name": "主推状态", "type": "checkbox"},
+        {"name": "替代推荐等级", "type": "single_select"}
+      ]
+    },
+    {
+      "name": "搭配候选记录",
+      "desc": "记录某次输入商品后生成的候选搭配结果",
+      "fields": [
+        {"name": "候选记录ID", "type": "text"},
+        {"name": "触发商品ID", "type": "text"},
+        {"name": "触发来源", "type": "single_select"},
+        {"name": "候选搭配ID", "type": "text"},
+        {"name": "推荐门店", "type": "single_select"},
+        {"name": "推荐风格", "type": "multi_select"},
+        {"name": "目标身形", "type": "multi_select"},
+        {"name": "推荐搭配商品列表", "type": "text"},
+        {"name": "推荐理由", "type": "text"},
+        {"name": "库存可执行性", "type": "single_select"},
+        {"name": "导购话术", "type": "text"}
+      ]
+    }
+  ]
+}

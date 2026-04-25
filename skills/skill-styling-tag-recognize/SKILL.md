@@ -42,7 +42,7 @@ description: 识别导购拍摄的商品吊牌图，OCR 款号/名称/颜色/尺
 调视觉模型识别吊牌图，输出 `product_code` / `product_name` / `color` / `size` / `price`。
 
 ### ② 款号优先精确匹配
-1. 用 OCR 到的 `product_code` 去「商品知识库」按 `款号` 字段精确查询
+1. 用 OCR 到的 `product_code` 去「商品知识库」（table_id `tblSZwqFZZdA2rCp`）按 `款号` 字段精确查询
 2. 命中单条 → 直接采用
 3. 命中多条（同款号多颜色）→ 用 OCR 到的 `color` 做二次过滤
 4. 若二次过滤后仍无法唯一确认 → 落到 ③
@@ -60,14 +60,27 @@ description: 识别导购拍摄的商品吊牌图，OCR 款号/名称/颜色/尺
 - **不要猜测、不要模糊匹配出一个候选**
 
 ## 库存联查（命中商品后必须执行）
-用命中的 `product_code` + `color` + OCR 到的 `size` 去「门店库存库」查：
+用命中的 `product_code` + `color` + OCR 到的 `size` 去「门店库存库」（table_id `tblVkg9lIp1DwOC8`）查：
 - `有货` → `inventory_status = "in_stock"`
 - `紧张` → `inventory_status = "low"`
 - `无货` → `inventory_status = "out_of_stock"`
 - 查不到记录 → `inventory_status = "not_listed"`
 
+## 写表（必须执行）
+**每次识别后无论成功失败，都要写一条记录到「吊牌识别日志」（table_id `tblGtOfomQ24Lkzm`）**：
+- `识别记录ID`：自动生成
+- `输入吊牌图`：原始上传图
+- `款号`：OCR 到的 `product_code`（可空）
+- `颜色`：OCR 到的 `color`
+- `尺码`：OCR 到的 `size`
+- `最终命中商品`：`matched_product.product_id`，未命中留空
+- `库存状态`：`inventory_status`
+- `是否走人工兜底`：`needs_manual_input`
+- `失败原因`：`failure_reason`（成功时留空）
+
 ## 关键规则
 - **禁止在未命中知识库时输出候选商品**——不准靠视觉特征猜款，这会污染下游推荐
 - **禁止跳过库存联查**——下游 `outfit_recommend` 依赖 `inventory_status`
+- **禁止跳过日志写入**——所有识别（含失败）必须落表，用于后续优化 OCR 与知识库覆盖率
 - 若吊牌反光 / 模糊导致款号读不出：直接 `needs_manual_input = true`，并返回明确的 `failure_reason` 与 `next_action`，不要硬编
 - 价格仅作为展示字段，不参与匹配逻辑
